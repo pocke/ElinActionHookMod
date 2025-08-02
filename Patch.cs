@@ -32,8 +32,6 @@ public static class PatchForEnterZone
     var zone = __instance;
     var subType = zoneToSubType(zone);
 
-    // This is called after the zone is activated, so we use After phase.
-    // The event will be handled in the next frame.
     var ev = new Events.EnterZone { SubType = subType, Phase = Events.Phase.After };
     ActionHook.Call(ev);
   }
