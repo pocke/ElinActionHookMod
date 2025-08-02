@@ -3,7 +3,6 @@ using System.IO;
 using BepInEx;
 using HarmonyLib;
 using UnityEngine;
-using static ActionHook.Handlers;
 
 namespace ActionHook;
 
@@ -19,14 +18,14 @@ internal class ActionHook : BaseUnityPlugin
 {
     internal static ActionHook Instance { get; private set; }
 
-    Dictionary<Events.EventBase, List<Handlers.HandlerBase>> Handlers { get; set; } = null;
+    Dictionary<Events.EventBase, List<Actions.ActionBase>> Actions { get; set; } = null;
 
     public void Awake()
     {
         Instance = this;
         new Harmony(ModInfo.Guid).PatchAll();
 
-        Handlers = ConfigLoader.LoadHandlersFromCsv(ConfigLoader.ConfigPath);
+        Actions = ConfigLoader.LoadActionsFromCsv(ConfigLoader.ConfigPath);
     }
 
     public static void Log(object message)
@@ -36,10 +35,10 @@ internal class ActionHook : BaseUnityPlugin
 
     public static void Call(Events.EventBase ev)
     {
-        Instance.Handlers.TryGetValue(ev, out var handlers);
-        foreach (var handler in handlers)
+        Instance.Actions.TryGetValue(ev, out var actions);
+        foreach (var action in actions)
         {
-            handler.Handle(ev);
+            action.Do(ev);
         }
     }
 }
