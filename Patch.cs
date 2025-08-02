@@ -9,6 +9,8 @@ public static class PatchForEnterZone
   [HarmonyPrefix, HarmonyPatch(typeof(Player), nameof(Player.EnterLocalZone), new Type[] { typeof(Point), typeof(ZoneTransition), typeof(bool), typeof(Chara) })]
   public static void Player_EnterLocalZone_Prefix(Point p)
   {
+    ActionHook.IsEnteringZone = true;
+
     p = p.Copy();
     if (EClass._zone.IsRegion)
     {
@@ -29,6 +31,12 @@ public static class PatchForEnterZone
   [HarmonyPostfix, HarmonyPatch(typeof(Zone), nameof(Zone.Activate))]
   public static void Zone_Activate_Postfix(Zone __instance)
   {
+    if (!ActionHook.IsEnteringZone)
+    {
+      return;
+    }
+    ActionHook.IsEnteringZone = false;
+
     var zone = __instance;
     var subType = zoneToSubType(zone);
 
@@ -70,6 +78,8 @@ public static class PatchForStairs
   [HarmonyPrefix, HarmonyPatch(typeof(TraitNewZone), nameof(TraitNewZone.MoveZone))]
   public static void TraitNewZone_MoveZone_Prefix(TraitNewZone __instance)
   {
+    ActionHook.IsEnteringZone = true;
+
     if (__instance is TraitStairsDown)
     {
       var ev = new Events.GoDownStairs { Phase = Events.Phase.Before };

@@ -17,6 +17,10 @@ internal static class ModInfo
 internal class ActionHook : BaseUnityPlugin
 {
   internal static ActionHook Instance { get; private set; }
+  
+  // Zone.Activate is called even when the player loads the game.
+  // To avoid triggering EnterZone.After event on loading, check this flag.
+  public static bool IsEnteringZone { get; set; } = false;
 
   Dictionary<Events.EventBase, List<Actions.ActionBase>> Actions { get; set; } = null;
 
