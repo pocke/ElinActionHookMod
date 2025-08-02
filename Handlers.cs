@@ -29,7 +29,7 @@ public class Handlers
 
     public override void Handle(Events.EventBase ev)
     {
-      Msg.SayRaw("Event received: " + ev.EventType);
+      Msg.SayRaw($"Event received: {ev} at phase {ev.Phase}");
     }
   }
 }
