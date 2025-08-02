@@ -2,6 +2,25 @@
 
 TBD
 
+## Events
+
+* `EnterZone`
+  * `Nefia`
+* `Sleep`
+* `GoDownStairs`
+* `GoUpStairs`
+* `StartCrafting`
+  * `Skill`
+
+## Handlers
+
+* `Say`
+* `ChangeEquipment`
+  * Number
+* `Save`
+* `ChangeToolbelt`
+  * number, number
+
 ## Build
 
 First, put `Directory.Build.props` with the following content in the root directory of the project.

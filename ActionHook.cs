@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using BepInEx;
 using HarmonyLib;
 using UnityEngine;
@@ -16,14 +17,25 @@ internal class ActionHook : BaseUnityPlugin
 {
     internal static ActionHook Instance { get; private set; }
 
+    static Dictionary<EventBase, List<HandlerBase>> Handlers { get; } = new Dictionary<EventBase, List<HandlerBase>>();
+
     public void Awake()
     {
         Instance = this;
-        new Harmony("ActionHook").PatchAll();
+        new Harmony(ModInfo.Guid).PatchAll();
     }
 
     public static void Log(object message)
     {
         Instance.Logger.LogInfo(message);
+    }
+
+    public static void Call(EventBase ev)
+    {
+        Handlers.TryGetValue(ev, out var handlers);
+        foreach (var handler in handlers)
+        {
+            handler.Handle(ev);
+        }
     }
 }
