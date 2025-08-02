@@ -4,7 +4,7 @@ using HarmonyLib;
 namespace ActionHook;
 
 [HarmonyPatch]
-public static class Patch
+public static class PatchForEnterZone
 {
   [HarmonyPrefix, HarmonyPatch(typeof(Player), nameof(Player.EnterLocalZone), new Type[] { typeof(Point), typeof(ZoneTransition), typeof(bool), typeof(Chara) })]
   public static void Player_EnterLocalZone_Prefix(Point p)
@@ -53,14 +53,22 @@ public static class Patch
       return null;
     }
   }
+}
 
+[HarmonyPatch]
+public static class PatchForSleep
+{
   [HarmonyPrefix, HarmonyPatch(typeof(HotItemActionSleep), nameof(HotItemActionSleep.Perform))]
   public static void HotItemActionSleep_Perform_Prefix()
   {
     var ev = new Events.Sleep { Phase = Events.Phase.Before };
     ActionHook.Call(ev);
   }
+}
 
+[HarmonyPatch]
+public static class PatchForStairs
+{
   [HarmonyPrefix, HarmonyPatch(typeof(TraitNewZone), nameof(TraitNewZone.MoveZone))]
   public static void TraitNewZone_MoveZone_Prefix(TraitNewZone __instance)
   {
