@@ -31,7 +31,7 @@ public class ConfigLoader
       Map(m => m.ActionArgs).Name("ActionArgs").ConvertUsing(row =>
       {
         var args = row.GetField<string>("ActionArgs");
-        return string.IsNullOrEmpty(args) ? Array.Empty<string>() : args.Split(',');
+        return string.IsNullOrEmpty(args) ? Array.Empty<string>() : args.Split('/');
       });
     }
   }

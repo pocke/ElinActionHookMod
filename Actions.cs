@@ -9,12 +9,14 @@ public static class Actions
   {
       { ActionType.ShowMessage, typeof(ShowMessage) },
       { ActionType.ChangeEquipment, typeof(ChangeEquipment) },
+      { ActionType.ChangeToolbelt, typeof(ChangeToolbelt) },
   };
 
   public enum ActionType
   {
     ShowMessage,
-    ChangeEquipment
+    ChangeEquipment,
+    ChangeToolbelt,
   }
 
   public abstract class ActionBase
@@ -61,5 +63,32 @@ public static class Actions
         return -1;
       }
     }
+  }
+
+  public class ChangeToolbelt : ActionBase
+  {
+    public override ActionType ActionType => ActionType.ChangeToolbelt;
+
+    public override void Do(Events.EventBase ev)
+    {
+      var widget = WidgetCurrentTool.Instance;
+      widget.Select(-1); // Clear selection
+
+      if (page < 0 || slot < 0)
+      {
+        ActionHook.Log($"Invalid toolbelt page or slot: {ActionArgs[0]}, {ActionArgs[1]}");
+        return;
+      }
+
+      if (widget.page != page)
+      {
+        widget.SwitchPage();
+      }
+
+      widget.Select(slot, true);
+    }
+
+    int page => int.TryParse(ActionArgs[0], out var p) ? p - 1 : -1;
+    int slot => int.TryParse(ActionArgs[1], out var s) ? s - 1 : -1;
   }
 }
