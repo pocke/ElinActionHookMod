@@ -52,4 +52,37 @@ public static class Patch
     var ev = new Events.EventSleep { Phase = Events.Phase.Before };
     ActionHook.Call(ev);
   }
+
+  [HarmonyPrefix, HarmonyPatch(typeof(TraitNewZone), nameof(TraitNewZone.MoveZone))]
+  public static void TraitNewZone_MoveZone_Prefix(TraitNewZone __instance)
+  {
+    if (__instance is TraitStairsDown)
+    {
+      var ev = new Events.EventGoDownStairs { Phase = Events.Phase.Before };
+      ActionHook.Call(ev);
+    } else if (__instance is TraitStairsUp)
+    {
+      var ev = new Events.EventGoUpStairs { Phase = Events.Phase.Before };
+      ActionHook.Call(ev);
+    }
+  }
+
+  [HarmonyPostfix, HarmonyPatch(typeof(TraitNewZone), nameof(TraitNewZone.MoveZone))]
+  public static void TraitNewZone_MoveZone_Postfix(TraitNewZone __instance, bool __result)
+  {
+    if (!__result)
+    {
+      return;
+    }
+
+    if (__instance is TraitStairsDown)
+    {
+      var ev = new Events.EventGoDownStairs { Phase = Events.Phase.After };
+      ActionHook.Call(ev);
+    } else if (__instance is TraitStairsUp)
+    {
+      var ev = new Events.EventGoUpStairs { Phase = Events.Phase.After };
+      ActionHook.Call(ev);
+    }
+  }
 }
