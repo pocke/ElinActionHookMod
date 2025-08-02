@@ -45,4 +45,11 @@ public static class Patch
     var ev = new Events.EnterZone { SubType = __state, Phase = Events.Phase.After };
     ActionHook.Call(ev);
   }
+
+  [HarmonyPrefix, HarmonyPatch(typeof(HotItemActionSleep), nameof(HotItemActionSleep.Perform))]
+  public static void HotItemActionSleep_Perform_Prefix()
+  {
+    var ev = new Events.EventSleep { Phase = Events.Phase.Before };
+    ActionHook.Call(ev);
+  }
 }
