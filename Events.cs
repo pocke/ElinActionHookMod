@@ -1,32 +1,41 @@
 using System;
+using System.Collections.Generic;
 
 namespace ActionHook;
 
-public abstract class EventBase : IEquatable<EventBase>
-{
-  public abstract string EventType { get; }
-  public virtual Events.Phase Phase { get; set; }
-
-  public bool Equals(EventBase other) => EventType == other.EventType && Phase == other.Phase;
-  public override bool Equals(object obj) => obj is EventBase other && Equals(other);
-  public override int GetHashCode() => EventType.GetHashCode() ^ Phase.GetHashCode();
-}
-
 public class Events
 {
+
+  public static readonly Dictionary<EventType, Type> EventTypeToClass = new()
+  {
+      { EventType.EnterZone, typeof(EnterZone) },
+      { EventType.Sleep, typeof(EventSleep) },
+      { EventType.GoDownStairs, typeof(EventGoDownStairs) },
+      { EventType.GoUpStairs, typeof(EventGoUpStairs) },
+      { EventType.StartCrafting, typeof(EventStartCrafting) },
+  };
+
+  public enum EventType
+  {
+    EnterZone,
+    Sleep,
+    GoDownStairs,
+    GoUpStairs,
+    StartCrafting,
+  }
+
   public enum Phase
   {
     Before,
     After
   }
 
-  public enum ZoneType
+  public enum SubType
   {
-    Nefia
-  }
+    // For EnterZone
+    Nefia,
 
-  public enum Skill
-  {
+    // For StartCrafting
     Carpentry,
     Blacksmith,
     Alchemy,
@@ -38,50 +47,39 @@ public class Events
     Reading,
   }
 
+  public abstract class EventBase : IEquatable<EventBase>
+  {
+    public abstract Events.EventType EventType { get; }
+    public virtual Events.SubType? SubType { get; set; }
+    public virtual Events.Phase Phase { get; set; }
+
+    public bool Equals(EventBase other) => EventType == other.EventType && SubType == other.SubType && Phase == other.Phase;
+    public override bool Equals(object obj) => obj is EventBase other && Equals(other);
+    public override int GetHashCode() => EventType.GetHashCode() ^ SubType.GetHashCode() ^ Phase.GetHashCode();
+  }
+
   public class EnterZone : EventBase
   {
-    public override string EventType => "EnterZone";
-    public ZoneType ZoneType { get; set; }
-
-    public override bool Equals(object obj)
-    {
-      return base.Equals(obj) && obj is EnterZone other && ZoneType == other.ZoneType;
-    }
-
-    public override int GetHashCode()
-    {
-      return base.GetHashCode() ^ ZoneType.GetHashCode();
-    }
+    public override EventType EventType => EventType.EnterZone;
   }
 
   public class EventSleep : EventBase
   {
-    public override string EventType => "EventSleep";
+    public override EventType EventType => EventType.Sleep;
   }
 
   public class EventGoDownStairs : EventBase
   {
-    public override string EventType => "EventGoDownStairs";
+    public override EventType EventType => EventType.GoDownStairs;
   }
 
   public class EventGoUpStairs : EventBase
   {
-    public override string EventType => "EventGoUpStairs";
+    public override EventType EventType => EventType.GoUpStairs;
   }
 
   public class EventStartCrafting : EventBase
   {
-    public override string EventType => "EventStartCrafting";
-    public Skill Skill { get; set; }
-
-    public override bool Equals(object obj)
-    {
-      return base.Equals(obj) && obj is EventStartCrafting other && Skill == other.Skill;
-    }
-
-    public override int GetHashCode()
-    {
-      return base.GetHashCode() ^ Skill.GetHashCode();
-    }
+    public override EventType EventType => EventType.StartCrafting;
   }
 }

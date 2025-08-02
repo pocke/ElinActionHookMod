@@ -1,7 +1,9 @@
 using System.Collections.Generic;
+using System.IO;
 using BepInEx;
 using HarmonyLib;
 using UnityEngine;
+using static ActionHook.Handlers;
 
 namespace ActionHook;
 
@@ -17,20 +19,14 @@ internal class ActionHook : BaseUnityPlugin
 {
     internal static ActionHook Instance { get; private set; }
 
-    static Dictionary<EventBase, List<HandlerBase>> Handlers { get; } = new Dictionary<EventBase, List<HandlerBase>>();
+    Dictionary<Events.EventBase, List<Handlers.HandlerBase>> Handlers { get; set; } = null;
 
     public void Awake()
     {
         Instance = this;
         new Harmony(ModInfo.Guid).PatchAll();
 
-        // TODO: Construct the list from a CSV file
-        var ev = new Events.EnterZone() { ZoneType = Events.ZoneType.Nefia, Phase = Events.Phase.Before };
-        var list = new List<HandlerBase>
-        {
-            new Handlers.Say(),
-        };
-        Handlers.Add(ev, list);
+        Handlers = ConfigLoader.LoadHandlersFromCsv(ConfigLoader.ConfigPath);
     }
 
     public static void Log(object message)
@@ -38,9 +34,9 @@ internal class ActionHook : BaseUnityPlugin
         Instance.Logger.LogInfo(message);
     }
 
-    public static void Call(EventBase ev)
+    public static void Call(Events.EventBase ev)
     {
-        Handlers.TryGetValue(ev, out var handlers);
+        Instance.Handlers.TryGetValue(ev, out var handlers);
         foreach (var handler in handlers)
         {
             handler.Handle(ev);

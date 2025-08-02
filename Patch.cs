@@ -16,15 +16,15 @@ public static class Patch
 		}
 
 		Zone zone = EClass._zone.Region.GetZoneAt(p.x, p.z);
-        Events.ZoneType t;
+        Events.SubType t;
 
         if (zone is Zone_Dungeon) {
-            t = Events.ZoneType.Nefia;
+            t = Events.SubType.Nefia;
         } else {
             return;
         }
 
-        var ev = new Events.EnterZone { ZoneType = t, Phase = Events.Phase.Before };
+        var ev = new Events.EnterZone { SubType = t, Phase = Events.Phase.Before };
         ActionHook.Call(ev);
     }
 }
