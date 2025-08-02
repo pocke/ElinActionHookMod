@@ -22,6 +22,9 @@ public static class Patch
         {
             __state = Events.SubType.Nefia;
         }
+        else if (zone != null && zone.IsPCFaction) {
+            __state = Events.SubType.PCFaction;
+        }
         else
         {
             return;

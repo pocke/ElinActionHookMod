@@ -34,6 +34,7 @@ public class Events
   {
     // For EnterZone
     Nefia,
+    PCFaction,
 
     // For StartCrafting
     Carpentry,
