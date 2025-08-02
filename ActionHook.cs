@@ -25,8 +25,7 @@ internal class ActionHook : BaseUnityPlugin
         new Harmony(ModInfo.Guid).PatchAll();
 
         // TODO: Construct the list from a CSV file
-        var ev = new Events.EnterZone();
-        ev.ZoneType = Events.ZoneType.Nefia;
+        var ev = new Events.EnterZone() { ZoneType = Events.ZoneType.Nefia, Phase = Events.Phase.Before };
         var list = new List<HandlerBase>
         {
             new Handlers.Say(),

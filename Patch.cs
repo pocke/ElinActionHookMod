@@ -24,7 +24,7 @@ public static class Patch
             return;
         }
 
-        var ev = new Events.EnterZone { ZoneType = t };
+        var ev = new Events.EnterZone { ZoneType = t, Phase = Events.Phase.Before };
         ActionHook.Call(ev);
     }
 }

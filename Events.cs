@@ -5,13 +5,21 @@ namespace ActionHook;
 public abstract class EventBase : IEquatable<EventBase>
 {
   public abstract string EventType { get; }
-  public bool Equals(EventBase other) => EventType == other.EventType;
+  public virtual Events.Phase Phase { get; set; }
+
+  public bool Equals(EventBase other) => EventType == other.EventType && Phase == other.Phase;
   public override bool Equals(object obj) => obj is EventBase other && Equals(other);
-  public override int GetHashCode() => EventType.GetHashCode();
+  public override int GetHashCode() => EventType.GetHashCode() ^ Phase.GetHashCode();
 }
 
 public class Events
 {
+  public enum Phase
+  {
+    Before,
+    After
+  }
+
   public enum ZoneType
   {
     Nefia
@@ -37,16 +45,12 @@ public class Events
 
     public override bool Equals(object obj)
     {
-      if (obj is EnterZone other)
-      {
-        return ZoneType == other.ZoneType;
-      }
-      return false;
+      return base.Equals(obj) && obj is EnterZone other && ZoneType == other.ZoneType;
     }
 
     public override int GetHashCode()
     {
-      return EventType.GetHashCode() ^ ZoneType.GetHashCode();
+      return base.GetHashCode() ^ ZoneType.GetHashCode();
     }
   }
 
@@ -72,16 +76,12 @@ public class Events
 
     public override bool Equals(object obj)
     {
-      if (obj is EventStartCrafting other)
-      {
-        return Skill == other.Skill;
-      }
-      return false;
+      return base.Equals(obj) && obj is EventStartCrafting other && Skill == other.Skill;
     }
 
     public override int GetHashCode()
     {
-      return EventType.GetHashCode() ^ Skill.GetHashCode();
+      return base.GetHashCode() ^ Skill.GetHashCode();
     }
   }
 }
