@@ -49,7 +49,7 @@ public static class Patch
   [HarmonyPrefix, HarmonyPatch(typeof(HotItemActionSleep), nameof(HotItemActionSleep.Perform))]
   public static void HotItemActionSleep_Perform_Prefix()
   {
-    var ev = new Events.EventSleep { Phase = Events.Phase.Before };
+    var ev = new Events.Sleep { Phase = Events.Phase.Before };
     ActionHook.Call(ev);
   }
 
@@ -58,11 +58,11 @@ public static class Patch
   {
     if (__instance is TraitStairsDown)
     {
-      var ev = new Events.EventGoDownStairs { Phase = Events.Phase.Before };
+      var ev = new Events.GoDownStairs { Phase = Events.Phase.Before };
       ActionHook.Call(ev);
     } else if (__instance is TraitStairsUp)
     {
-      var ev = new Events.EventGoUpStairs { Phase = Events.Phase.Before };
+      var ev = new Events.GoUpStairs { Phase = Events.Phase.Before };
       ActionHook.Call(ev);
     }
   }
@@ -77,11 +77,11 @@ public static class Patch
 
     if (__instance is TraitStairsDown)
     {
-      var ev = new Events.EventGoDownStairs { Phase = Events.Phase.After };
+      var ev = new Events.GoDownStairs { Phase = Events.Phase.After };
       ActionHook.Call(ev);
     } else if (__instance is TraitStairsUp)
     {
-      var ev = new Events.EventGoUpStairs { Phase = Events.Phase.After };
+      var ev = new Events.GoUpStairs { Phase = Events.Phase.After };
       ActionHook.Call(ev);
     }
   }
