@@ -23,6 +23,15 @@ internal class ActionHook : BaseUnityPlugin
     {
         Instance = this;
         new Harmony(ModInfo.Guid).PatchAll();
+
+        // TODO: Construct the list from a CSV file
+        var ev = new Events.EnterZone();
+        ev.ZoneType = Events.ZoneType.Nefia;
+        var list = new List<HandlerBase>
+        {
+            new Handlers.Say(),
+        };
+        Handlers.Add(ev, list);
     }
 
     public static void Log(object message)
