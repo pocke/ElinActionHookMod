@@ -35,6 +35,11 @@ internal class ActionHook : BaseUnityPlugin
 
   public static void Call(Events.EventBase ev)
   {
+    if (Instance.Actions == null)
+    {
+      return;
+    }
+
     if (Instance.Actions.TryGetValue(ev, out var actions))
     {
       foreach (var action in actions)
