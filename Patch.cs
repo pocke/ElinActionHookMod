@@ -82,3 +82,34 @@ public static class PatchForStairs
     }
   }
 }
+
+[HarmonyPatch]
+public static class PatchForStartCrafting
+{
+  [HarmonyPrefix, HarmonyPatch(typeof(LayerCraft), nameof(LayerCraft.SetFactory))]
+  public static void LayerCraft_SetFactory_Prefix(Thing t)
+  {
+    triggerEvent(t);
+  }
+
+  [HarmonyPrefix, HarmonyPatch(typeof(LayerDragGrid), nameof(LayerDragGrid.CreateCraft))]
+  public static void LayerDragGrid_CreateCraft_Prefix(TraitCrafter crafter)
+  {
+    var t = crafter.owner;
+    triggerEvent(t);
+  }
+
+  static void triggerEvent(Card t)
+  {
+    var skill = t.trait.GetParam(1) ?? "handicraft";
+    skill = char.ToUpper(skill[0]) + skill.Substring(1);
+    if (!Enum.TryParse(skill, out Events.SubType subType))
+    {
+      ActionHook.Log($"Unknown skill: {skill}");
+      return;
+    }
+
+    var ev = new Events.StartCrafting { SubType = subType, Phase = Events.Phase.Before };
+    ActionHook.Call(ev);
+  }
+}
