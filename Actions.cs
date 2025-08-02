@@ -10,6 +10,7 @@ public static class Actions
       { ActionType.ShowMessage, typeof(ShowMessage) },
       { ActionType.ChangeEquipment, typeof(ChangeEquipment) },
       { ActionType.ChangeToolbelt, typeof(ChangeToolbelt) },
+      { ActionType.Save, typeof(Save) },
   };
 
   public enum ActionType
@@ -17,6 +18,7 @@ public static class Actions
     ShowMessage,
     ChangeEquipment,
     ChangeToolbelt,
+    Save,
   }
 
   public abstract class ActionBase
@@ -90,5 +92,15 @@ public static class Actions
 
     int page => int.TryParse(ActionArgs[0], out var p) ? p - 1 : -1;
     int slot => int.TryParse(ActionArgs[1], out var s) ? s - 1 : -1;
+  }
+
+  public class Save : ActionBase
+  {
+    public override ActionType ActionType => ActionType.Save;
+
+    public override void Do(Events.EventBase ev)
+    {
+      EClass.game.Save();
+    }
   }
 }

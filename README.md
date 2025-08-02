@@ -38,6 +38,7 @@ TBD
   * `ActionArgs` has two numbers separated by a slash (`/`):
     - The first number is the page of the toolbelt (1 or 2).
     - The second number is the index of the item on the toolbelt (1-9).
+* `Save`: Save the game.
 
 ## Build
 
