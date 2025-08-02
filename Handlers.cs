@@ -7,12 +7,12 @@ public class Handlers
 {
   public static readonly Dictionary<HandlerType, Type> EventTypeToClass = new()
   {
-      { HandlerType.Say, typeof(Say) },
+      { HandlerType.ShowMessage, typeof(ShowMessage) },
   };
 
   public enum HandlerType
   {
-    Say,
+    ShowMessage,
   }
 
   public abstract class HandlerBase
@@ -23,13 +23,13 @@ public class Handlers
 
 
 
-  public class Say : HandlerBase
+  public class ShowMessage : HandlerBase
   {
-    public override HandlerType HandlerType => HandlerType.Say;
+    public override HandlerType HandlerType => HandlerType.ShowMessage;
 
     public override void Handle(Events.EventBase ev)
     {
-      Msg.SayRaw($"Event received: {ev} at phase {ev.Phase}");
+      EClass.ui.Say($"Event received: {ev} at phase {ev.Phase}");
     }
   }
 }
