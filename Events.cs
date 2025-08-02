@@ -9,10 +9,10 @@ public class Events
   public static readonly Dictionary<EventType, Type> EventTypeToClass = new()
   {
       { EventType.EnterZone, typeof(EnterZone) },
-      { EventType.Sleep, typeof(EventSleep) },
-      { EventType.GoDownStairs, typeof(EventGoDownStairs) },
-      { EventType.GoUpStairs, typeof(EventGoUpStairs) },
-      { EventType.StartCrafting, typeof(EventStartCrafting) },
+      { EventType.Sleep, typeof(Sleep) },
+      { EventType.GoDownStairs, typeof(GoDownStairs) },
+      { EventType.GoUpStairs, typeof(GoUpStairs) },
+      { EventType.StartCrafting, typeof(StartCrafting) },
   };
 
   public enum EventType
@@ -64,22 +64,22 @@ public class Events
     public override EventType EventType => EventType.EnterZone;
   }
 
-  public class EventSleep : EventBase
+  public class Sleep : EventBase
   {
     public override EventType EventType => EventType.Sleep;
   }
 
-  public class EventGoDownStairs : EventBase
+  public class GoDownStairs : EventBase
   {
     public override EventType EventType => EventType.GoDownStairs;
   }
 
-  public class EventGoUpStairs : EventBase
+  public class GoUpStairs : EventBase
   {
     public override EventType EventType => EventType.GoUpStairs;
   }
 
-  public class EventStartCrafting : EventBase
+  public class StartCrafting : EventBase
   {
     public override EventType EventType => EventType.StartCrafting;
   }
