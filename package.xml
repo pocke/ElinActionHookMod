@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Meta>
+  <title>Action Hook</title>
+  <id>me.pocke.action-hook</id>
+  <author>Masataka Pocke Kuwabara</author>
+  <loadPriority>100</loadPriority>
+  <version>0.23.152</version>
+  <tags>QoL</tags>
+  <description>
+TBD
+  </description>
+</Meta>
