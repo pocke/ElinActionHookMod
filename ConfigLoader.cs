@@ -42,7 +42,7 @@ public class ConfigLoader
   {
     if (!File.Exists(filePath))
     {
-      ActionHook.Log($"Config file not found: {filePath}");
+      ActionHook.DisplayError($"Config file not found: {filePath}");
       return new Dictionary<Events.EventBase, List<Actions.ActionBase>>();
     }
 

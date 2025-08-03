@@ -37,6 +37,11 @@ internal class ActionHook : BaseUnityPlugin
     Instance.Logger.LogInfo(message);
   }
 
+  public static void DisplayError(string message)
+  {
+    EClass.ui.Say($"[ActionHook] {message}");
+  }
+
   public static void Call(Events.EventBase ev)
   {
     if (Instance.Actions == null)
