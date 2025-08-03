@@ -26,6 +26,8 @@ public static class Actions
     public abstract ActionType ActionType { get; }
     public string[] ActionArgs { get; set; }
     public abstract void Do(Events.EventBase ev);
+
+    public virtual void Validate() {}
   }
 
   public class ShowMessage : ActionBase
@@ -45,12 +47,15 @@ public static class Actions
     public override void Do(Events.EventBase ev)
     {
       var i = HotBarIndex();
-      if (i < 0)
-      {
-        return;
-      }
-
       WidgetHotbar.HotbarExtra.TryUse(i);
+    }
+
+    public override void Validate()
+    {
+      if (HotBarIndex() < 0)
+      {
+        throw new ValidationException($"Invalid hotbar index of ChangeEquipment action: {ActionArgs[0]}");
+      }
     }
 
     int HotBarIndex()
@@ -61,7 +66,6 @@ public static class Actions
       }
       else
       {
-        ActionHook.Log($"Invalid equipment ID: {ActionArgs[0]}");
         return -1;
       }
     }
@@ -76,18 +80,30 @@ public static class Actions
       var widget = WidgetCurrentTool.Instance;
       widget.Select(-1); // Clear selection
 
-      if (page < 0 || slot < 0)
-      {
-        ActionHook.Log($"Invalid toolbelt page or slot: {ActionArgs[0]}, {ActionArgs[1]}");
-        return;
-      }
-
       if (widget.page != page)
       {
         widget.SwitchPage();
       }
 
       widget.Select(slot, true);
+    }
+
+    public override void Validate()
+    {
+      if (ActionArgs.Length < 2)
+      {
+        throw new ValidationException("ChangeToolbelt action requires two arguments: page and slot.");
+      }
+      if (page < 0 || 1 < page)
+      {
+        throw new ValidationException($"Invalid toolbelt page: {ActionArgs[0]}\n" +
+                                      "Valid values are 1 or 2.");
+      }
+      if (slot < 0 || 8 < slot)
+      {
+        throw new ValidationException($"Invalid toolbelt slot: {ActionArgs[1]}\n" +
+                                      "Valid values are 1 to 9.");
+      }
     }
 
     int page => int.TryParse(ActionArgs[0], out var p) ? p - 1 : -1;

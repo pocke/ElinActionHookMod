@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using BepInEx;
@@ -37,6 +38,12 @@ internal class ActionHook : BaseUnityPlugin
     Instance.Logger.LogInfo(message);
   }
 
+  public static void DisplayError(string message)
+  {
+    EClass.ui.Say($"[ActionHook] {message}");
+    Instance.Logger.LogError(message);
+  }
+
   public static void Call(Events.EventBase ev)
   {
     if (Instance.Actions == null)
@@ -52,4 +59,9 @@ internal class ActionHook : BaseUnityPlugin
       }
     }
   }
+}
+
+class ValidationException : Exception
+{
+  public ValidationException(string message) : base(message) { }
 }
