@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using BepInEx;
@@ -58,4 +59,9 @@ internal class ActionHook : BaseUnityPlugin
       }
     }
   }
+}
+
+class ValidationException : Exception
+{
+  public ValidationException(string message) : base(message) { }
 }

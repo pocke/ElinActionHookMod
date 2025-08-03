@@ -41,12 +41,11 @@ public class ConfigLoader
 
   public static Dictionary<Events.EventBase, List<Actions.ActionBase>> LoadActionsFromCsv(string filePath)
   {
-    var actionsDict = new Dictionary<Events.EventBase, List<Actions.ActionBase>>();
 
     if (!File.Exists(filePath))
     {
       ActionHook.DisplayError($"Config file not found: {filePath}");
-      return actionsDict;
+      return emptyActions();
     }
 
     List<ActionRecord> records;
@@ -56,30 +55,43 @@ public class ConfigLoader
       using var csv = new CsvReader(reader, CultureInfo.InvariantCulture);
       csv.Configuration.RegisterClassMap<ActionRecordMap>();
       records = csv.GetRecords<ActionRecord>().ToList();
-    } catch (CsvHelperException ex)
+    }
+    catch (CsvHelperException ex)
     {
       ActionHook.DisplayError($"Error on reading config file: {ex.Message}");
-      return actionsDict;
+      return emptyActions();
     }
 
-    foreach (var record in records)
+    var actionsDict = emptyActions();
+    try
     {
-      var evKlass = Events.EventTypeToClass[record.EventType];
-      var ev = (Events.EventBase)Activator.CreateInstance(evKlass);
-      ev.SubType = record.SubType;
-      ev.Phase = record.Phase;
-
-      var actionKlass = global::ActionHook.Actions.EventTypeToClass[record.ActionType];
-      var action = (global::ActionHook.Actions.ActionBase)Activator.CreateInstance(actionKlass);
-      action.ActionArgs = record.ActionArgs;
-
-      if (!actionsDict.ContainsKey(ev))
+      foreach (var record in records)
       {
-        actionsDict[ev] = new List<Actions.ActionBase>();
+        var evKlass = Events.EventTypeToClass[record.EventType];
+        var ev = (Events.EventBase)Activator.CreateInstance(evKlass);
+        ev.SubType = record.SubType;
+        ev.Phase = record.Phase;
+
+        var actionKlass = Actions.EventTypeToClass[record.ActionType];
+        var action = (Actions.ActionBase)Activator.CreateInstance(actionKlass);
+        action.ActionArgs = record.ActionArgs;
+        action.Validate();
+
+        if (!actionsDict.ContainsKey(ev))
+        {
+          actionsDict[ev] = new List<Actions.ActionBase>();
+        }
+        actionsDict[ev].Add(action);
       }
-      actionsDict[ev].Add(action);
+    }
+    catch (ValidationException ex)
+    {
+      ActionHook.DisplayError($"Error on validating config file: {ex.Message}");
+      return emptyActions();
     }
 
     return actionsDict;
   }
+
+  static Dictionary<Events.EventBase, List<Actions.ActionBase>> emptyActions()  => new();
 }
