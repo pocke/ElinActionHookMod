@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reflection;
 using CsvHelper;
 using CsvHelper.Configuration;
+using CsvHelper.TypeConversion;
 
 namespace ActionHook;
 
@@ -40,18 +41,27 @@ public class ConfigLoader
 
   public static Dictionary<Events.EventBase, List<Actions.ActionBase>> LoadActionsFromCsv(string filePath)
   {
+    var actionsDict = new Dictionary<Events.EventBase, List<Actions.ActionBase>>();
+
     if (!File.Exists(filePath))
     {
       ActionHook.DisplayError($"Config file not found: {filePath}");
-      return new Dictionary<Events.EventBase, List<Actions.ActionBase>>();
+      return actionsDict;
     }
 
-    using var reader = new StreamReader(filePath);
-    using var csv = new CsvReader(reader, CultureInfo.InvariantCulture);
-    csv.Configuration.RegisterClassMap<ActionRecordMap>();
-    var records = csv.GetRecords<ActionRecord>().ToList();
+    List<ActionRecord> records;
+    try
+    {
+      using var reader = new StreamReader(filePath);
+      using var csv = new CsvReader(reader, CultureInfo.InvariantCulture);
+      csv.Configuration.RegisterClassMap<ActionRecordMap>();
+      records = csv.GetRecords<ActionRecord>().ToList();
+    } catch (CsvHelperException ex)
+    {
+      ActionHook.DisplayError($"Error on reading config file: {ex.Message}");
+      return actionsDict;
+    }
 
-    var actionsDict = new Dictionary<Events.EventBase, List<Actions.ActionBase>>();
     foreach (var record in records)
     {
       var evKlass = Events.EventTypeToClass[record.EventType];
