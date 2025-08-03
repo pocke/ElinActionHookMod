@@ -1,0 +1,4 @@
+EventType,SubType,Phase,ActionType,ActionArgs
+EnterZone,Nefia,Before,ChangeEquipment,6
+EnterZone,Nefia,After,ChangeToolbelt,1/8
+EnterZone,Nefia,After,ChangeToolbelt,1/9
