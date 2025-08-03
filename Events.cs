@@ -50,9 +50,11 @@ public class Events
 
   public abstract class EventBase : IEquatable<EventBase>
   {
-    public abstract Events.EventType EventType { get; }
-    public virtual Events.SubType? SubType { get; set; }
-    public virtual Events.Phase Phase { get; set; }
+    public abstract EventType EventType { get; }
+    public SubType? SubType { get; set; }
+    public virtual Phase Phase { get; set; }
+
+    public abstract void Validate();
 
     public bool Equals(EventBase other) => EventType == other.EventType && SubType == other.SubType && Phase == other.Phase;
     public override bool Equals(object obj) => obj is EventBase other && Equals(other);
@@ -62,25 +64,65 @@ public class Events
   public class EnterZone : EventBase
   {
     public override EventType EventType => EventType.EnterZone;
+
+    public override void Validate()
+    {
+      if (SubType != Events.SubType.Nefia && SubType != Events.SubType.PCFaction)
+      {
+        throw new ValidationException($"Invalid SubType for EnterZone event: {SubType}");
+      }
+    }
   }
 
   public class Sleep : EventBase
   {
     public override EventType EventType => EventType.Sleep;
+
+    public override void Validate()
+    {
+      if (SubType != null)
+      {
+        throw new ValidationException($"SubType must not be set for Sleep event, but got: {SubType}");
+      }
+    }
   }
 
   public class GoDownStairs : EventBase
   {
     public override EventType EventType => EventType.GoDownStairs;
+
+    public override void Validate()
+    {
+      if (SubType != null)
+      {
+        throw new ValidationException($"SubType must not be set for Sleep event, but got: {SubType}");
+      }
+    }
   }
 
   public class GoUpStairs : EventBase
   {
     public override EventType EventType => EventType.GoUpStairs;
+
+    public override void Validate()
+    {
+      if (SubType != null)
+      {
+        throw new ValidationException($"SubType must not be set for Sleep event, but got: {SubType}");
+      }
+    }
   }
 
   public class StartCrafting : EventBase
   {
     public override EventType EventType => EventType.StartCrafting;
+
+    public override void Validate()
+    {
+      if (SubType == Events.SubType.Nefia || SubType == Events.SubType.PCFaction)
+      {
+        throw new ValidationException($"Invalid SubType for StartCrafting event: {SubType}");
+      }
+    }
   }
 }

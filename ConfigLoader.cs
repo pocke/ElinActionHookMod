@@ -71,6 +71,7 @@ public class ConfigLoader
         var ev = (Events.EventBase)Activator.CreateInstance(evKlass);
         ev.SubType = record.SubType;
         ev.Phase = record.Phase;
+        ev.Validate();
 
         var actionKlass = Actions.EventTypeToClass[record.ActionType];
         var action = (Actions.ActionBase)Activator.CreateInstance(actionKlass);
