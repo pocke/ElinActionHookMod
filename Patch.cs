@@ -111,7 +111,7 @@ public static class PatchForStartCrafting
 
   static void triggerEvent(Card t)
   {
-    var skill = t.trait.GetParam(1) ?? "handicraft";
+    var skill = t?.trait?.GetParam(1) ?? "handicraft";
     skill = char.ToUpper(skill[0]) + skill.Substring(1);
     if (!Enum.TryParse(skill, out Events.SubType subType))
     {
