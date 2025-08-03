@@ -11,7 +11,7 @@ internal static class ModInfo
 {
   internal const string Guid = "me.pocke.action-hook";
   internal const string Name = "Action Hook";
-  internal const string Version = "1.0.0";
+  internal const string Version = "1.0.1";
 }
 
 [BepInPlugin(ModInfo.Guid, ModInfo.Name, ModInfo.Version)]
