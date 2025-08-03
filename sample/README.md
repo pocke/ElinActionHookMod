@@ -1,10 +1,10 @@
 # CSV Examples
 
 This directory contains example CSV files that demonstrate how to use this mod.
-Copy and edit one of these files in your installation directory to configure the mod according to your needs.
+Copy as `hooks.csv` and edit one of these files in your installation directory to configure the mod.
 
 このディレクトリ内のCSVファイルは、このmodの設定例です。
-インストールディレクトリにコピーして、必要に応じて編集してください。
+インストールディレクトリに`hooks.csv`としてコピーして、必要に応じて編集してください。
 
 ## `setup_nefia.csv`
 
