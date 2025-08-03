@@ -1,8 +1,11 @@
 # Elin Action Hook mod
 
-TBD
+This is a mod for Elin that allows you to hook into various game events and perform actions in response.
 
-## Events
+## Configuration
+
+
+### Events
 
 | EventType | SubType | Phase |
 |-----------|---------|-------|
@@ -22,7 +25,7 @@ TBD
   * For `After` phase, please use `EnterZone` event with `Nefia` `SubType`.
 * `StartCrafting`: Triggered when the player starts crafting.
 
-## Actions
+### Actions
 
 | ActionType | ActionArgs |
 |------------|------------|
@@ -39,22 +42,3 @@ TBD
     - The first number is the page of the toolbelt (1 or 2).
     - The second number is the index of the item on the toolbelt (1-9).
 * `Save`: Save the game.
-
-## Build
-
-First, put `Directory.Build.props` with the following content in the root directory of the project.
-Change the `ElinGamePath` to the path of your Elin installation.
-
-```xml
-<Project>
-  <PropertyGroup>
-    <ElinGamePath>C:\Program Files (x86)\Steam\steamapps\common\Elin</ElinGamePath>
-  </PropertyGroup>
-</Project>
-```
-
-Then, run the following command to build the project.
-
-```console
-dotnet build
-```
