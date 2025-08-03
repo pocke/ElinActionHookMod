@@ -11,6 +11,8 @@ For example, you can configure the following:
 ## Configuration
 
 To use this mod, place a `hooks.csv` file in the directory where this mod is installed.
+The directory is `\Steamlibrary\steamapps\workshop\content\2135150\3540931142`.
+
 The format of this file is as follows:
 
 ```csv
