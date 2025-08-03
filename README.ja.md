@@ -11,6 +11,8 @@ Elinでゲームイベントにフックし、アクションを実行できる�
 ## Configuration
 
 このmodを使用するためには、`hooks.csv`ファイルをmodがインストールされたディレクトリに配置する必要があります。
+インストールディレクトリは`\Steamlibrary\steamapps\workshop\content\2135150\3540931142`です。
+
 このファイルの形式は以下の通りです。
 
 ```csv
