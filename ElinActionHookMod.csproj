@@ -76,11 +76,18 @@
     <Content Include="package.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <!--
     <Content Include="preview.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    -->
+    <Content Include="README.md">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="README.ja.md">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="sample\*">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>

@@ -4,9 +4,51 @@
   <id>me.pocke.action-hook</id>
   <author>Masataka Pocke Kuwabara</author>
   <loadPriority>100</loadPriority>
-  <version>0.23.152</version>
+  <version>0.23.173</version>
   <tags>QoL</tags>
   <description>
-TBD
+(English is below Japanese)
+
+ゲームイベントにフックし、アクションを実行できるようにするModです。
+
+例えば以下のような設定ができます。
+
+[list]
+  [*] ネフィアに入る前に戦闘用装備に切り替える。
+  [*] ネフィアに入った後、階段で移動した後に魔法の地図を唱えて、探知機を起動する。
+  [*] クラフト前に、クラフト用の装備に切り替える。
+[/list]
+
+[h2]設定[/h2]
+
+このmodを使用するためには、`hooks.csv`ファイルをmodがインストールされたディレクトリに配置する必要があります。
+
+設定の詳細は、[url=https://github.com/pocke/ElinActionHookMod/blob/main/README.ja.md] README [/url]を参照してください。
+また設定の例が[url=https://github.com/pocke/ElinActionHookMod/blob/main/sample/README.md] sampleディレクトリ [/url]内にあります。
+
+[hr][/hr]
+
+
+This mod allows you to hook into game events and execute actions.
+
+For example, you can configure the following:
+
+[list]
+  [*] Switch to combat equipment set before entering a Nefia.
+  [*] Cast Magic Map and activate a Detector after entering a Nefia and moving down the stairs.
+  [*] Switch to crafting equipment set before starting crafting.
+[/list]
+
+[h2]Configuration[/h2]
+
+To use this mod, place a `hooks.csv` file in the directory where this mod is installed.
+
+For detailed configuration, refer to the [url=https://github.com/pocke/ElinActionHookMod/blob/main/README.md] README [/url].
+Examples of configurations can be found in the [url=https://github.com/pocke/ElinActionHookMod/blob/main/sample/README.md] sample directory [/url].
+
+
+[hr][/hr]
+
+https://github.com/pocke/ElinActionHookMod
   </description>
 </Meta>
