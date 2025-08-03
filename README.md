@@ -5,7 +5,7 @@ This mod allows you to hook into game events in Elin and execute actions.
 For example, you can configure the following:
 
 * Switch to combat equipment set before entering a Nefia.
-* Cast Magic Map and activate a Detector after entering a Nefia.
+* Cast Magic Map and activate a Detector after entering a Nefia and moving down the stairs.
 * Switch to crafting equipment set before starting crafting.
 
 ## Configuration
@@ -145,3 +145,4 @@ Do not specify `ActionArgs`.
 
 * If the same event is used in multiple rows, actions are executed in order from the top.
 * If there is an error in the CSV file, an error will be displayed in a popup in the game and in `Player.log`.
+* If you register a spell on the toolbelt, you can cast it when that item is selected.
