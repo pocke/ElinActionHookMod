@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using HarmonyLib;
 
 namespace ActionHook;
@@ -36,6 +37,15 @@ public static class PatchForEnterZone
       return;
     }
     ActionHook.IsEnteringZone = false;
+
+    // HACK: Do not trigger when a drama is being shown.
+    //       If a player sets a ChangeToolbelt action to cast a spell,
+    //       the drama will not be shown by consuming the turn by the spell.
+    //       I've confirmed this problem on the Nanasu quest.
+    if (ELayer.ui.layers.Any(l => l is LayerDrama))
+    {
+      return;
+    }
 
     var zone = __instance;
     var subType = zoneToSubType(zone);
